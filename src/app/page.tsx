@@ -1,4 +1,4 @@
-export default function Home() {
+use clientexport default function Home() {
   return (
     <main className="min-h-screen bg-[#0f172a] text-white p-6 font-sans">
       <div className="max-w-md mx-auto space-y-8">
@@ -42,7 +42,22 @@ export default function Home() {
             点这里记录今日努力
           </button>
         </div>
-      </div>
+        </MochiBirthday>
     </main>
   );
-}
+}// 这是一个简单的 React 组件，可以放在你的私人空间里
+const MochiBirthday = () => {
+  const birthday = new Date('2023-03-14');
+  const now = new Date();
+  // 计算麻薯来这个世界多少天了
+  const diffTime = Math.abs(now.getTime() - birthday.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return (
+    <div className="p-4 bg-yellow-100 rounded-xl mt-4 text-center">
+      <h3 className="text-lg font-bold">🐶 麻薯 (Mochi) 的成长足迹</h3>
+      <p>今天是麻薯来到我们身边的第 <span className="text-red-500 font-bold">{diffDays}</span> 天</p>
+      <p className="text-sm text-gray-600">永远是咱们家最糯的小狗！</p>
+    </div>
+  );
+};
