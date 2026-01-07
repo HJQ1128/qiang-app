@@ -1,4 +1,4 @@
-use clientexport default function Home() {
+"use client";export default function Home() {
   return (
     <main className="min-h-screen bg-[#0f172a] text-white p-6 font-sans">
       <div className="max-w-md mx-auto space-y-8">
@@ -42,7 +42,7 @@ use clientexport default function Home() {
             点这里记录今日努力
           </button>
         </div>
-        </MochiBirthday>
+        <MochiBirthday/>
     </main>
   );
 }// 这是一个简单的 React 组件，可以放在你的私人空间里
