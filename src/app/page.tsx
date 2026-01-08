@@ -22,8 +22,9 @@ export default function Home() {
   useEffect(() => {
     // 1. 初始化打卡记录
     const saved = localStorage.getItem('workoutHistory_v3');
-    if (saved) { setHistory(JSON.parse(saved)); } 
-    else {
+    if (saved) { 
+      setHistory(JSON.parse(saved)); 
+    } else {
       const initial = ["2026/1/7", "2026/1/8"];
       setHistory(initial);
       localStorage.setItem('workoutHistory_v3', JSON.stringify(initial));
@@ -32,10 +33,9 @@ export default function Home() {
     // 2. 时间计算逻辑
     const calcDates = () => {
       const now = new Date();
-      // 恋爱时间
       const startLove = new Date('2022-02-11');
       setLoveDays(Math.floor((now.getTime() - startLove.getTime()) / (1000 * 60 * 60 * 24)));
-      // 麻薯时间
+      
       const birth = new Date('2023-03-14');
       const together = Math.floor((now.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24));
       let nextB = new Date(now.getFullYear(), 2, 14);
@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#020617] text-slate-200 p-6 font-sans pb-32">
-      {/* 1. 恋爱计时器组件 */}
+      {/* 1. 恋爱计时器 */}
       <div className="max-w-md mx-auto mb-6 text-center">
         <div className="inline-block bg-gradient-to-r from-red-500/20 to-pink-500/20 px-6 py-2 rounded-full border border-red-500/30">
           <p className="text-pink-400 text-sm font-bold">❤️ 阿强 & 当当 已经在一起 {loveDays} 天</p>
@@ -80,26 +80,26 @@ export default function Home() {
           }} className="w-full bg-emerald-500 text-slate-950 font-black py-3 rounded-xl active:scale-95 transition-all">记录今日运动</button>
         </div>
 
-        {/* 3. 麻薯组件 */}
+        {/* 3. 麻薯双组件 */}
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-3xl text-center">
-            <p className="text-[10px] text-blue-400 font-bold mb-1 text-left ml-2">陪伴麻薯</p>
-            <p className="text-2xl font-black">{mochiStats.together} <span className="text-xs">天</span></p>
+            <p className="text-[10px] text-blue-400 font-bold mb-1 text-left ml-2 tracking-tighter">陪伴麻薯</p>
+            <p className="text-2xl font-black">{mochiStats.together}<span className="text-xs ml-1">天</span></p>
           </div>
           <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-3xl text-center">
-            <p className="text-[10px] text-purple-400 font-bold mb-1 text-left ml-2">麻薯生日</p>
-            <p className="text-2xl font-black">{mochiStats.countdown} <span className="text-xs">天</span></p>
+            <p className="text-[10px] text-purple-400 font-bold mb-1 text-left ml-2 tracking-tighter">生日倒数</p>
+            <p className="text-2xl font-black">{mochiStats.countdown}<span className="text-xs ml-1">天</span></p>
           </div>
         </div>
 
-        {/* 4. 点击切换的西式餐牌 */}
+        {/* 4. 西式餐牌 */}
         <div className="bg-[#f8f5f0] p-6 rounded-[2rem] shadow-2xl border-4 border-[#e5e1d8] text-slate-800 relative">
           <div className="absolute top-4 right-6 text-[#d4cfc3] font-serif text-4xl">MENU</div>
           <h2 className="text-[#8b7e6a] font-serif font-bold italic mb-6 border-b border-[#d4cfc3] pb-2">Today's Special</h2>
           
-          <div className="text-center py-4 cursor-pointer active:opacity-60" onClick={nextRecipe}>
-            <p className="text-xs text-[#b0a695] uppercase tracking-[0.2em] mb-2">✦ Click to Switch ✦</p>
-            <p className="text-3xl font-serif font-black text-[#5c5242] underline decoration-double decoration-[#d4cfc3] underline-offset-8">
+          <div className="text-center py-4 cursor-pointer" onClick={nextRecipe}>
+            <p className="text-[10px] text-[#b0a695] uppercase tracking-[0.2em] mb-2">✦ Click to Switch ✦</p>
+            <p className="text-2xl font-serif font-black text-[#5c5242] underline decoration-double decoration-[#d4cfc3] underline-offset-8">
               {recipeBook[recipeIndex].name}
             </p>
           </div>
@@ -108,5 +108,22 @@ export default function Home() {
             <p className="text-xs font-bold text-[#8b7e6a] mb-2 flex items-center">
               <span className="mr-2">👨‍🍳</span> 制作步骤 / Directions:
             </p>
-            <p className="text-sm leading-loose text-[#6b5f4c] font-medium">
+            <p className="text-sm leading-relaxed text-[#6b5f4c] font-medium">
               {recipeBook[recipeIndex].steps}
+            </p>
+          </div>
+          
+          <div className="mt-4 text-center">
+            <button onClick={() => alert('已确定今日餐单！加油主厨阿强！')} className="text-[10px] font-bold border border-[#8b7e6a] px-4 py-1 rounded-full text-[#8b7e6a] hover:bg-[#8b7e6a] hover:text-white transition-all">确认菜单</button>
+          </div>
+        </div>
+      </section>
+
+      {/* 悬浮页脚 */}
+      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-md bg-slate-900/90 backdrop-blur-md border border-slate-800 px-6 py-4 rounded-full flex justify-between items-center shadow-2xl">
+         <span className="text-xs text-pink-400 font-bold">{quote}</span>
+         <span className="text-[10px] text-slate-500">2026/1/9 · 00:05 赶紧休息</span>
+      </footer>
+    </main>
+  );
+}
