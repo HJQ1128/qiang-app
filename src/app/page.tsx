@@ -122,7 +122,7 @@ export default function Home() {
       {/* 悬浮页脚 */}
       <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-md bg-slate-900/90 backdrop-blur-md border border-slate-800 px-6 py-4 rounded-full flex justify-between items-center shadow-2xl">
          <span className="text-xs text-pink-400 font-bold">{quote}</span>
-         <span className="text-[10px] text-slate-500">2026/1/9 · 00:05 赶紧休息</span>
+         <span className="text-[10px] text-slate-500">麻薯在干嘛？</span>
       </footer>
     </main>
   );
