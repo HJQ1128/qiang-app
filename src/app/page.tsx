@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import MessageBoard from '../components/MessageBoard';
 
 // 日期数据
 const DATE_DATA = {
@@ -320,6 +321,9 @@ export default function Home() {
 
       {/* 照片画廊 */}
       <PhotoGallery />
+
+      {/* 留言板 */}
+      <MessageBoard />
 
       {/* 页脚 */}
       <footer className="py-8 px-4 border-t border-white/10 bg-black/5">
