@@ -75,7 +75,7 @@ export default function MessageBoard() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('啥要删掉•︡ᯅ•︠ ？')) {
+    if (confirm('为啥要删掉•︡ᯅ•︠ ？')) {
       await remove(ref(db, `love_messages/${id}`));
     }
   };
