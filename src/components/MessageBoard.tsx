@@ -54,7 +54,7 @@ export default function MessageBoard() {
       const savedName = localStorage.getItem('love_sender_name');
       if (savedName) setSenderName(savedName);
     } else {
-      alert('密码错误，请重试！');
+      alert('不对不对喔՞˶･֊･˶՞');
     }
   };
 
