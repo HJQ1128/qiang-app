@@ -232,8 +232,7 @@ export default function Home() {
 
         {/* 内容 */}
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
-          <div className="text-7xl mb-6 animate-fade-in-up">👩‍❤️‍👨🐶</div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-up delay-1">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-up">
             <span className="text-white">当当 & 麦兜</span>
           </h1>
           <p className="text-xl text-white/80 mb-8 animate-fade-in-up delay-2">

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "当当 & 强哥 | 私人倒计时",
+  title: "当当 & 麦兜 | 私人倒计时",
   description: "记录我们的甜蜜时光，包含麻薯的成长、重要纪念日倒计时",
 };
 
