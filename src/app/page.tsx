@@ -7,9 +7,16 @@ const DATE_DATA = {
   mochiBirthday: new Date('2023-03-14'),
   dangdangBirthday: new Date('1999-06-13'),
   togetherDate: new Date('2022-02-11'),
-  weddingDate: new Date('2026-05-16'),
-  dangdang10000Days: new Date('2026-11-21'), // 1999-06-13 + 10000天
+  dangdang10000Days: new Date('2026-11-21'),
 };
+
+// 照片数据
+const PHOTOS = [
+  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=young%20woman%20holding%20cute%20white%20westie%20dog%20in%20bedroom%2C%20cozy%20atmosphere%2C%20warm%20lighting%2C%20woman%20with%20flower%20face%20decorations&image_size=landscape_4_3',
+  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20westie%20dog%20playing%20on%20beach%2C%20sand%20footprints%2C%20ocean%20waves%2C%20sunny%20day%2C%20happy%20puppy&image_size=landscape_4_3',
+  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=beautiful%20young%20woman%20with%20long%20black%20hair%20standing%20by%20beach%20with%20coconut%20trees%2C%20white%20dress%2C%20golden%20hour%2C%20tropical&image_size=landscape_4_3',
+  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=close%20up%20portrait%20of%20cute%20white%20westie%20dog%20with%20big%20eyes%2C%20fluffy%20fur%2C%20pet%20shop%20background%2C%20adorable&image_size=landscape_4_3',
+];
 
 // 计算倒计时
 function useCountdown(targetDate: Date) {
@@ -34,7 +41,6 @@ function useCountdown(targetDate: Date) {
 
         setTimeLeft({ days, hours, minutes, seconds, totalDays: days });
       } else {
-        // 已经过了的日期，计算已过天数
         const pastDays = Math.floor(Math.abs(difference) / (1000 * 60 * 60 * 24));
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: -pastDays });
       }
@@ -55,128 +61,119 @@ function calculateAge(birthDate: Date) {
   return { years, days };
 }
 
-// 倒计时卡片组件
-function CountdownCard({ title, emoji, targetDate, description, isPast = false }: {
+// 倒计时卡片组件 - 带照片背景
+function PhotoCountdownCard({ 
+  title, 
+  emoji, 
+  targetDate, 
+  description, 
+  photoUrl,
+  isPast = false,
+  delay = 0 
+}: {
   title: string;
   emoji: string;
   targetDate: Date;
   description: string;
+  photoUrl: string;
   isPast?: boolean;
+  delay?: number;
 }) {
   const { days, hours, minutes, seconds, totalDays } = useCountdown(targetDate);
 
-  if (isPast && totalDays < 0) {
-    return (
-      <div className="glass rounded-3xl p-6 hover-lift fade-in">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-3xl">{emoji}</span>
-          <h3 className="text-xl font-bold text-gray-700">{title}</h3>
-        </div>
-        <p className="text-gray-500 text-sm mb-4">{description}</p>
-        <div className="text-center py-4">
-          <div className="text-5xl font-bold gradient-text mb-2">
-            {Math.abs(totalDays)}
-          </div>
-          <div className="text-gray-500 text-sm">天</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="glass rounded-3xl p-6 hover-lift fade-in">
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-3xl">{emoji}</span>
-        <h3 className="text-xl font-bold text-gray-700">{title}</h3>
+    <div 
+      className="relative rounded-3xl overflow-hidden shadow-2xl hover-lift fade-in group"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {/* 背景图片 */}
+      <div className="aspect-[4/3] relative">
+        <img
+          src={photoUrl}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
       </div>
-      <p className="text-gray-500 text-sm mb-4">{description}</p>
-      <div className="grid grid-cols-4 gap-2">
-        <div className="text-center bg-gradient-to-br from-[#ff9f9f]/30 to-[#ffc3a0]/30 rounded-xl p-3">
-          <div className="text-2xl font-bold text-gray-800">{days}</div>
-          <div className="text-xs text-gray-500">天</div>
+      
+      {/* 内容 */}
+      <div className="absolute inset-0 p-6 flex flex-col justify-end">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-2xl">{emoji}</span>
+          <h3 className="text-xl font-bold text-white">{title}</h3>
         </div>
-        <div className="text-center bg-gradient-to-br from-[#ff9f9f]/30 to-[#ffc3a0]/30 rounded-xl p-3">
-          <div className="text-2xl font-bold text-gray-800">{hours}</div>
-          <div className="text-xs text-gray-500">时</div>
-        </div>
-        <div className="text-center bg-gradient-to-br from-[#ff9f9f]/30 to-[#ffc3a0]/30 rounded-xl p-3">
-          <div className="text-2xl font-bold text-gray-800">{minutes}</div>
-          <div className="text-xs text-gray-500">分</div>
-        </div>
-        <div className="text-center bg-gradient-to-br from-[#ff9f9f]/30 to-[#ffc3a0]/30 rounded-xl p-3">
-          <div className="text-2xl font-bold text-gray-800">{seconds}</div>
-          <div className="text-xs text-gray-500">秒</div>
-        </div>
+        <p className="text-white/70 text-sm mb-4">{description}</p>
+        
+        {isPast && totalDays < 0 ? (
+          <div className="text-center py-3">
+            <div className="text-4xl font-bold text-white mb-1">{Math.abs(totalDays)}</div>
+            <div className="text-white/70 text-sm">天</div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { value: days, label: '天' },
+              { value: hours, label: '时' },
+              { value: minutes, label: '分' },
+              { value: seconds, label: '秒' },
+            ].map((item, index) => (
+              <div key={index} className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-2">
+                <div className="text-lg font-bold text-white">{item.value}</div>
+                <div className="text-white/60 text-xs">{item.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-// 照片画廊组件
+// 照片画廊组件 - 无文字标注
 function PhotoGallery() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const photos = [
-    {
-      url: 'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?w=600&h=600&fit=crop',
-      caption: '可爱的麻薯',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1502790671045-0876a96143ef?w=600&h=600&fit=crop',
-      caption: '海边的当当',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1544569146-07c48f5f47e7?w=600&h=600&fit=crop',
-      caption: '麻薯在海边玩耍',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=600&h=600&fit=crop',
-      caption: '当当和麻薯',
-    },
-  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % photos.length);
-    }, 5000);
+      setActiveIndex((prev) => (prev + 1) % PHOTOS.length);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 gradient-text">📷 我们的回忆</h2>
+    <section className="py-20 px-4 bg-gradient-to-b from-transparent to-[#fff8f0]">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-8 gradient-text">📷 Memories</h2>
         
         <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-          <div className="aspect-square">
-            {photos.map((photo, index) => (
+          <div className="aspect-video">
+            {PHOTOS.map((photo, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-700 ${
+                className={`absolute inset-0 transition-opacity duration-1000 ${
                   index === activeIndex ? 'opacity-100' : 'opacity-0'
                 }`}
               >
                 <img
-                  src={photo.url}
-                  alt={photo.caption}
+                  src={photo}
+                  alt=""
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                  <p className="text-white text-lg font-medium">{photo.caption}</p>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10"></div>
               </div>
             ))}
           </div>
 
           {/* 指示器 */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-            {photos.map((_, index) => (
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
+            {PHOTOS.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === activeIndex
-                    ? 'bg-white w-8'
-                    : 'bg-white/50 hover:bg-white/80'
+                    ? 'bg-white w-6'
+                    : 'bg-white/40 hover:bg-white/70'
                 }`}
               />
             ))}
@@ -185,19 +182,19 @@ function PhotoGallery() {
 
         {/* 缩略图 */}
         <div className="grid grid-cols-4 gap-3 mt-6">
-          {photos.map((photo, index) => (
+          {PHOTOS.map((photo, index) => (
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
               className={`rounded-xl overflow-hidden border-2 transition-all duration-300 ${
                 index === activeIndex
-                  ? 'border-[#ff7675] shadow-lg'
-                  : 'border-transparent opacity-70 hover:opacity-100'
+                  ? 'border-[#ff7675] shadow-lg scale-105'
+                  : 'border-transparent opacity-60 hover:opacity-100'
               }`}
             >
               <img
-                src={photo.url}
-                alt={photo.caption}
+                src={photo}
+                alt=""
                 className="w-full aspect-square object-cover"
               />
             </button>
@@ -210,46 +207,50 @@ function PhotoGallery() {
 
 export default function Home() {
   const mochiAge = calculateAge(DATE_DATA.mochiBirthday);
-  const dangdangAge = calculateAge(DATE_DATA.dangdangBirthday);
   const togetherDays = useCountdown(DATE_DATA.togetherDate).totalDays;
 
   return (
     <main className="min-h-screen bg-[#fff8f0]">
-      {/* Hero Section */}
+      {/* Hero Section - 全屏照片背景 */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* 背景装饰 */}
+        {/* 背景图片 */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-[#ff9f9f]/20 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#ffc3a0]/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
-          <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-[#ffecd2]/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1.5s' }}></div>
+          <img
+            src={PHOTOS[3]}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70"></div>
         </div>
 
-        {/* 爱心装饰 */}
-        <div className="absolute top-32 left-20 text-4xl animate-pulse-slow opacity-60">💕</div>
-        <div className="absolute top-48 right-32 text-3xl animate-pulse-slow opacity-50" style={{ animationDelay: '1s' }}>💗</div>
-        <div className="absolute bottom-40 left-32 text-3xl animate-pulse-slow opacity-50" style={{ animationDelay: '2s' }}>💖</div>
+        {/* 装饰元素 */}
+        <div className="absolute top-20 left-10 text-5xl animate-pulse-slow opacity-40">💕</div>
+        <div className="absolute top-40 right-20 text-4xl animate-pulse-slow opacity-30" style={{ animationDelay: '1s' }}>💗</div>
+        <div className="absolute bottom-32 left-20 text-4xl animate-pulse-slow opacity-30" style={{ animationDelay: '2s' }}>💖</div>
+        <div className="absolute bottom-20 right-10 text-5xl animate-pulse-slow opacity-40" style={{ animationDelay: '1.5s' }}>🐶</div>
 
+        {/* 内容 */}
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
-          <div className="text-6xl mb-6 animate-fade-in-up">👩‍❤️‍👨🐶</div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up delay-1">
-            <span className="gradient-text">当当 & 强哥</span>
+          <div className="text-7xl mb-6 animate-fade-in-up">👩‍❤️‍👨🐶</div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-up delay-1">
+            <span className="text-white">当当 & 麦兜</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 animate-fade-in-up delay-2">
-            还有可爱的麻薯宝贝
+          <p className="text-xl text-white/80 mb-8 animate-fade-in-up delay-2">
+            With our lovely Mochi
           </p>
           <div className="flex flex-wrap justify-center gap-4 animate-fade-in-up delay-3">
-            <span className="px-4 py-2 bg-white/80 rounded-full text-gray-700 shadow-sm">
-              🎎 已婚 {Math.abs(togetherDays)} 天
+            <span className="px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+              ❤️ Together {Math.abs(togetherDays)} days
             </span>
-            <span className="px-4 py-2 bg-white/80 rounded-full text-gray-700 shadow-sm">
-              🐾 麻薯 {mochiAge.years}岁 {mochiAge.days}天
+            <span className="px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+              🐾 Mochi {mochiAge.years} years
             </span>
           </div>
         </div>
 
         {/* 滚动提示 */}
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>
@@ -258,68 +259,60 @@ export default function Home() {
       {/* 倒计时卡片区域 */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 gradient-text">⏰ 重要时刻</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 gradient-text">⏰ Countdown</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* 麻薯年龄 */}
-            <div className="glass rounded-3xl p-6 hover-lift fade-in">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">🐶</span>
-                <h3 className="text-xl font-bold text-gray-700">麻薯的年龄</h3>
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl hover-lift fade-in">
+              <div className="aspect-[4/3] relative">
+                <img
+                  src={PHOTOS[0]}
+                  alt="Mochi"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
               </div>
-              <div className="text-center py-4">
-                <div className="text-6xl font-bold gradient-text">{mochiAge.years}</div>
-                <div className="text-gray-500">岁</div>
-                <div className="text-gray-400 text-sm mt-1">+ {mochiAge.days} 天</div>
+              <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl">🐶</span>
+                  <h3 className="text-xl font-bold text-white">Mochi</h3>
+                </div>
+                <div className="text-center py-3">
+                  <div className="text-5xl font-bold text-white mb-1">{mochiAge.years}</div>
+                  <div className="text-white/70 text-sm">岁 + {mochiAge.days} 天</div>
+                </div>
               </div>
-              <p className="text-center text-gray-400 text-xs mt-4">生日: 2023年3月14日</p>
-            </div>
-
-            {/* 当当年龄 */}
-            <div className="glass rounded-3xl p-6 hover-lift fade-in delay-1">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">👸</span>
-                <h3 className="text-xl font-bold text-gray-700">当当的年龄</h3>
-              </div>
-              <div className="text-center py-4">
-                <div className="text-6xl font-bold gradient-text">{dangdangAge.years}</div>
-                <div className="text-gray-500">岁</div>
-                <div className="text-gray-400 text-sm mt-1">+ {dangdangAge.days} 天</div>
-              </div>
-              <p className="text-center text-gray-400 text-xs mt-4">生日: 1999年6月13日</p>
             </div>
 
             {/* 当当生日倒计时 */}
-            <CountdownCard
-              title="当当生日"
+            <PhotoCountdownCard
+              title="Birthday"
               emoji="🎂"
               targetDate={new Date(`${new Date().getFullYear()}-06-13`)}
-              description="距离当当生日还有"
-            />
-
-            {/* 结婚纪念日倒计时 */}
-            <CountdownCard
-              title="结婚纪念日"
-              emoji="💒"
-              targetDate={new Date(`${new Date().getFullYear()}-05-16`)}
-              description="距离结婚纪念日还有"
+              description="Until birthday"
+              photoUrl={PHOTOS[1]}
+              delay={100}
             />
 
             {/* 在一起的日子 */}
-            <CountdownCard
-              title="在一起"
+            <PhotoCountdownCard
+              title="Together"
               emoji="❤️"
               targetDate={DATE_DATA.togetherDate}
-              description="已经在一起的天数"
+              description="Days together"
+              photoUrl={PHOTOS[3]}
               isPast
+              delay={200}
             />
 
             {/* 当当10000天倒计时 */}
-            <CountdownCard
-              title="当当10000天"
+            <PhotoCountdownCard
+              title="10000 Days"
               emoji="🌟"
               targetDate={DATE_DATA.dangdang10000Days}
-              description="距离当当出生第10000天"
+              description="Until 10000 days"
+              photoUrl={PHOTOS[2]}
+              delay={300}
             />
           </div>
         </div>
@@ -329,10 +322,10 @@ export default function Home() {
       <PhotoGallery />
 
       {/* 页脚 */}
-      <footer className="py-8 px-4 border-t border-[#ffc3a0]/30">
+      <footer className="py-8 px-4 border-t border-white/10 bg-black/5">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-gray-500">
-            Made with 💖 by 强哥 & 当当
+            Made with 💖 by Dangdang & McDull
           </p>
           <p className="text-gray-400 text-sm mt-2">
             © {new Date().getFullYear()} mochi0211.top
