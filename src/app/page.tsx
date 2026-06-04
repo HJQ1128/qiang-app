@@ -12,10 +12,10 @@ const DATE_DATA = {
 
 // 照片数据
 const PHOTOS = [
-  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=young%20woman%20holding%20cute%20white%20westie%20dog%20in%20bedroom%2C%20cozy%20atmosphere%2C%20warm%20lighting%2C%20woman%20with%20flower%20face%20decorations&image_size=landscape_4_3',
-  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20westie%20dog%20playing%20on%20beach%2C%20sand%20footprints%2C%20ocean%20waves%2C%20sunny%20day%2C%20happy%20puppy&image_size=landscape_4_3',
-  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=beautiful%20young%20woman%20with%20long%20black%20hair%20standing%20by%20beach%20with%20coconut%20trees%2C%20white%20dress%2C%20golden%20hour%2C%20tropical&image_size=landscape_4_3',
-  'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=close%20up%20portrait%20of%20cute%20white%20westie%20dog%20with%20big%20eyes%2C%20fluffy%20fur%2C%20pet%20shop%20background%2C%20adorable&image_size=landscape_4_3',
+  '/3190eafccec1e247ee0a445fa5a35edd.jpg',
+  '/313279550bc8cbd548bfd4e54f125fd0.jpg',
+  '/b1b3735f719f02b014571f030cc86d06.jpg',
+  '/c30dd4b4f21a70aac058e576870597e9.jpg',
 ];
 
 // 计算倒计时
