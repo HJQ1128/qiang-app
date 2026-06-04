@@ -18,6 +18,7 @@ export default function MessageBoard() {
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [senderName, setSenderName] = useState('麦兜');
 
   const CORRECT_PASSWORD = '613128';
 
@@ -50,6 +51,8 @@ export default function MessageBoard() {
     if (password === CORRECT_PASSWORD) {
       setLoggedIn(true);
       localStorage.setItem('love_login', 'true');
+      const savedName = localStorage.getItem('love_sender_name');
+      if (savedName) setSenderName(savedName);
     } else {
       alert('密码错误，请重试！');
     }
@@ -62,7 +65,7 @@ export default function MessageBoard() {
 
     const messageData = {
       content: newMessage,
-      sender: '麦兜',
+      sender: senderName,
       timestamp: Date.now(),
     };
 
@@ -193,6 +196,39 @@ export default function MessageBoard() {
 
           {/* 输入区域 */}
           <div className="border-t border-gray-100 p-4">
+            {/* 名字选择 */}
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-sm text-gray-500">留言署名：</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setSenderName('麦兜');
+                    localStorage.setItem('love_sender_name', '麦兜');
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                    senderName === '麦兜'
+                      ? 'bg-gradient-to-r from-[#ff7675] to-[#ff9f9f] text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  🐷 麦兜
+                </button>
+                <button
+                  onClick={() => {
+                    setSenderName('当当');
+                    localStorage.setItem('love_sender_name', '当当');
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                    senderName === '当当'
+                      ? 'bg-gradient-to-r from-[#ff7675] to-[#ff9f9f] text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  👸 当当
+                </button>
+              </div>
+            </div>
+            
             <div className="flex items-end gap-3">
               <textarea
                 value={newMessage}
