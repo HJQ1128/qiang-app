@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "创意工作室 | 个人博客与作品集",
-  description: "一个充满创意的个人博客与作品集网站，展示设计、开发与艺术的完美结合",
+  title: "当当 & 强哥 | 私人倒计时",
+  description: "记录我们的甜蜜时光，包含麻薯的成长、重要纪念日倒计时",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="zh-CN">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
