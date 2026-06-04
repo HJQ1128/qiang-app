@@ -168,7 +168,7 @@ export default function MessageBoard() {
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className="bg-[#fff8f0] rounded-2xl p-4 relative group"
+                    className="bg-[#fff8f0] rounded-2xl p-4 relative"
                   >
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-[#ff9f9f] to-[#ff7675] rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
@@ -178,15 +178,15 @@ export default function MessageBoard() {
                         <div className="flex items-center gap-2 mb-2">
                           <span className="font-semibold text-gray-700">{msg.sender}</span>
                           <span className="text-xs text-gray-400">{formatTime(msg.timestamp)}</span>
+                          <button
+                            onClick={() => handleDelete(msg.id)}
+                            className="ml-auto text-gray-400 hover:text-red-500 text-sm px-2 py-1"
+                          >
+                            删除
+                          </button>
                         </div>
                         <p className="text-gray-600">{msg.content}</p>
                       </div>
-                      <button
-                        onClick={() => handleDelete(msg.id)}
-                        className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"
-                      >
-                        ✕
-                      </button>
                     </div>
                   </div>
                 ))}
